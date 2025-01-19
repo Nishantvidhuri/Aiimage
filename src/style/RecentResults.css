@@ -1,0 +1,73 @@
+/* Container for Recent Results */
+.recent-results-container {
+    margin-top: 30px;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Title Section */
+  .recent-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #374151; /* Gray for a clean look */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .history-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Grid Layout for Images */
+  .recent-images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    justify-items: center;
+    align-items: start;
+  }
+  
+  /* Individual Image Card */
+  .recent-image-card {
+    background-color: #f9fafb; /* Light background */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .recent-image-card:hover {
+    transform: scale(1.05); /* Subtle zoom effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+  }
+  
+  /* Image Styling */
+  .recent-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-bottom: 2px solid #e5e7eb;
+  }
+  
+  /* Image Label */
+  .image-label {
+    padding: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #1f2937; /* Dark gray for text */
+    text-align: center;
+  }
+  
+  /* Placeholder for No Recent Results */
+  .no-recent-results {
+    font-size: 1.2rem;
+    color: #6b7280; /* Subtle gray text */
+    text-align: center;
+    margin-top: 20px;
+  }
+  

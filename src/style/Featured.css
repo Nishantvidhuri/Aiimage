@@ -1,0 +1,46 @@
+.featured-container {
+    padding: 20px;
+    background-color: #1f2937;
+    color: #f3f4f6;
+  }
+  
+  .featured-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .featured-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .featured-image-card img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .load-more-button,
+  .loading-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #10b981;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .load-more-button:hover {
+    background-color: #059669;
+  }
+  
+  .loading-button {
+    background-color: #6b7280;
+    cursor: not-allowed;
+  }
+  

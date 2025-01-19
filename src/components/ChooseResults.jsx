@@ -4,6 +4,7 @@ import image2 from "../images/Underwater Paradis.jpeg";
 import image3 from "../images/Magical Creatures.jpeg";
 import image4 from "../images/Time Travel Adventure.jpeg";
 import image5 from "../images/Celebration of Life.jpeg";
+import "../style/ChooseResults.css";
 
 const ChooseResults = ({ onSelect }) => {
   const handleClick = (value) => {
@@ -19,19 +20,26 @@ const ChooseResults = ({ onSelect }) => {
   ];
 
   return (
-    <>
-      <div style={{ marginTop: 20 }}>Choose from the below ideas</div>
-      <div className="recentImageBox">
+    <div className="choose-results">
+      <h2 className="title">Choose from the below ideas</h2>
+      <div className="results-grid">
         {availableOptions.map((value) => (
-          <>
-            <div key={value} onClick={() => handleClick(value.name)}>
-              <img className="recentImage" src={value.src} alt={value.name} loading="lazy"/>
-              <div>{value.name}</div>
-            </div>
-          </>
+          <div
+            key={value.name}
+            className="result-card"
+            onClick={() => handleClick(value.name)}
+          >
+            <img
+              className="result-image"
+              src={value.src}
+              alt={value.name}
+              loading="lazy"
+            />
+            <div className="result-name">{value.name}</div>
+          </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

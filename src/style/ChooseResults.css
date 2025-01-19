@@ -1,0 +1,56 @@
+/* Container Styling */
+.choose-results {
+    margin: 40px auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #374151; /* Gray for a clean look */
+    margin-bottom: 20px;
+  }
+  
+  /* Grid Layout */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    justify-items: center;
+    align-items: start;
+  }
+  
+  /* Individual Card Styling */
+  .result-card {
+    background-color: #f9fafb; /* Light background for contrast */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+    overflow: hidden;
+    width: 100%;
+    max-width: 220px;
+  }
+  
+  .result-card:hover {
+    transform: scale(1.05); /* Subtle zoom on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+  }
+  
+  .result-image {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid #e5e7eb; /* Light border below image */
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .result-name {
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1f2937; /* Dark gray for text */
+  }
+  

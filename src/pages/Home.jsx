@@ -6,36 +6,47 @@ import { getRandom, loaderMessages, promptIdeas } from "../utilities/utils";
 import ChooseResults from "../components/ChooseResults";
 import RecentResults from "../components/RecentResults";
 
+import "../style/Home.css"; // Import external CSS
+
 const Home = () => {
+  const [activeSection, setActiveSection] = useState("aigeneration");
   const [showLoader, setShowLoader] = useState(false);
   const [imageResult, setImageResult] = useState(null);
   const [promptQuery, setPromptQuery] = useState("");
-  const [radioValue, setRadioValue] = useState("20");
-  const [dropDownValue, setDropDownValue] = useState("DDIM");
-  const [seedValue, setSeedValue] = useState(17123564234);
   const [loaderMessage, setLoaderMessage] = useState(loaderMessages[0]);
+
+  const schedulerOptions = ["Euler", "LMS", "Heun", "DDPM"];
+  const stepOptions = ["20", "30", "50"];
 
   useEffect(() => {
     const loaderInterval = setInterval(() => {
       setLoaderMessage(getRandom(loaderMessages));
     }, 3000);
-    // to avoid memory leak
-    return () => {
-      clearInterval(loaderInterval);
-    };
+
+    return () => clearInterval(loaderInterval); // Cleanup interval on component unmount
   }, [loaderMessage]);
 
-  const handleSearch = (event) => {
-    setPromptQuery(event.target.value);
-  };
+  const handleSearch = (event) => setPromptQuery(event.target.value);
 
-  const handleChange = (event) => {
-    if (event.target.name === "radio") {
-      setRadioValue(event.target.value);
-    } else if (event.target.name === "dropdown") {
-      setDropDownValue(event.target.value);
-    } else {
-      setSeedValue(event.target.value);
+  const fetchData = async () => {
+    try {
+      setShowLoader(true);
+
+      // Generate random values for scheduler, steps, and seed
+      const randomScheduler = getRandom(schedulerOptions);
+      const randomSteps = getRandom(stepOptions);
+      const randomSeed = Math.floor(Math.random() * 100000000);
+
+      const imageBlob = await fetchImages(promptQuery, randomSeed, randomScheduler, randomSteps);
+
+      const fileReaderInstance = new FileReader();
+      fileReaderInstance.onload = () => setImageResult(fileReaderInstance.result);
+      fileReaderInstance.readAsDataURL(imageBlob);
+
+      setShowLoader(false);
+    } catch (error) {
+      console.error("Error fetching images from API:", error);
+      setShowLoader(false);
     }
   };
 
@@ -44,129 +55,131 @@ const Home = () => {
     fetchData();
   };
 
-  const fetchData = async () => {
-    try {
-      setShowLoader(true);
+  const handleSurpriseMe = () => setPromptQuery(getRandom(promptIdeas));
 
-      const imageBlob = await fetchImages(
-        promptQuery,
-        seedValue,
-        dropDownValue,
-        radioValue
-      );
+  const handleAvailOptions = (option) => setPromptQuery(option);
 
-      const fileReaderInstance = new FileReader();
-      // This event will fire when the image Blob is fully loaded and ready to be displayed
-      fileReaderInstance.onload = () => {
-        let base64data = fileReaderInstance.result;
-        setImageResult(base64data);
-      };
-      // Use the readAsDataURL() method of the FileReader instance to read the image Blob and convert it into a data URL
-      fileReaderInstance.readAsDataURL(imageBlob);
-      setShowLoader(false);
-    } catch (error) {
-      // Handle error
-      console.error("Error fetching images from API:", error);
-      setShowLoader(false);
+  const renderSection = () => {
+    switch (activeSection) {
+      case "aigeneration":
+        return (
+          <>
+            <div className="form-container">
+              <div className="input-group">
+                <input
+                  type="text"
+                  id="prompt"
+                  value={promptQuery}
+                  onChange={handleSearch}
+                  placeholder="A plush toy robot sitting against a yellow wall"
+                  className="input-field"
+                />
+                <button onClick={handleSurpriseMe} className="button button-blue">
+                  Surprise Me
+                </button>
+              </div>
+
+              <button onClick={handleGenerate} className="button button-green">
+                Generate Image
+              </button>
+            </div>
+
+            <div className="result-section">
+              {showLoader ? (
+                <div className="loader-container">
+                  <svg viewBox="0 0 100 100">
+                    <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
+                      <path d="M 21 40 V 59">
+                        <animateTransform
+                          attributeName="transform"
+                          attributeType="XML"
+                          type="rotate"
+                          values="0 21 59; 180 21 59"
+                          dur="2s"
+                          repeatCount="indefinite"
+                        />
+                      </path>
+                      <path d="M 79 40 V 59">
+                        <animateTransform
+                          attributeName="transform"
+                          attributeType="XML"
+                          type="rotate"
+                          values="0 79 59; -180 79 59"
+                          dur="2s"
+                          repeatCount="indefinite"
+                        />
+                      </path>
+                      <path d="M 50 21 V 40">
+                        <animate
+                          attributeName="d"
+                          values="M 50 21 V 40; M 50 59 V 40"
+                          dur="2s"
+                          repeatCount="indefinite"
+                        />
+                      </path>
+                      <path d="M 50 60 V 79">
+                        <animate
+                          attributeName="d"
+                          values="M 50 60 V 79; M 50 98 V 79"
+                          dur="2s"
+                          repeatCount="indefinite"
+                        />
+                      </path>
+                      <path d="M 50 21 L 79 40 L 50 60 L 21 40 Z">
+                        <animate
+                          attributeName="stroke"
+                          values="rgba(255,255,255,1); rgba(100,100,100,0)"
+                          dur="2s"
+                          repeatCount="indefinite"
+                        />
+                      </path>
+                      <path d="M 50 40 L 79 59 L 50 79 L 21 59 Z" />
+                      <path d="M 50 59 L 79 78 L 50 98 L 21 78 Z">
+                        <animate
+                          attributeName="stroke"
+                          values="rgba(100,100,100,0); rgba(255,255,255,1)"
+                          dur="2s"
+                          repeatCount="indefinite"
+                        />
+                      </path>
+                      <animateTransform
+                        attributeName="transform"
+                        attributeType="XML"
+                        type="translate"
+                        values="0 0; 0 -19"
+                        dur="2s"
+                        repeatCount="indefinite"
+                      />
+                    </g>
+                  </svg>
+                </div>
+              ) : (
+                <ImageBox promptQuery={promptQuery} imageResult={imageResult} />
+              )}
+            </div>
+            <ChooseResults onSelect={handleAvailOptions} />
+          </>
+        );
+      case "history":
+        return (
+          <div className="extras-section">
+            <RecentResults
+              promptQuery={promptQuery}
+              imageResult={imageResult}
+              onSelect={handleAvailOptions}
+            />
+          </div>
+        );
+      default:
+        return null;
     }
   };
 
-  const handleSurpriseMe = (e) => {
-    const surprisePrompt = getRandom(promptIdeas);
-    setPromptQuery(surprisePrompt);
-  };
-
-  const handleAvailOptions = (option) => {
-    setPromptQuery(option);
-  };
-
   return (
-    <div>
-      <NavBar />
-      <div className="surpriseBox">
-        <label>Bring your imaginations into reality!</label>
-      </div>
-      <div>
-        <input
-          type="text"
-          id="prompt"
-          value={promptQuery}
-          onChange={handleSearch}
-          placeholder="A plush toy robot sitting against a yellow wall"
-          className="promptInput"
-        />
-        <button onClick={handleSurpriseMe}>Surprise Me</button>
-      </div>
-      <div className="formBox">
-        <div className="formValue">
-          <label>Scheduler &nbsp;</label>
-          <select name="dropdown" value={dropDownValue} onChange={handleChange}>
-            <option value="Euler">Euler</option>
-            <option value="LMS">LMS</option>
-            <option value="Heun">Heun</option>
-            <option value="DDPM">DDPM</option>
-          </select>
-        </div>
-        <div className="formValue">
-          Steps
-          <label>
-            <input
-              type="radio"
-              name="radio"
-              value="20"
-              checked={radioValue === "20"}
-              onChange={handleChange}
-            />
-            20
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="radio"
-              value="30"
-              onChange={handleChange}
-            />
-            30
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="radio"
-              value="50"
-              onChange={handleChange}
-            />
-            50
-          </label>
-        </div>
-        <div className="formValue">
-          <label>Seed &nbsp;</label>
-          <input
-            type="number"
-            name="input"
-            value={seedValue}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
-      <div>
-        <button onClick={handleGenerate}>Generate the Image</button>
-      </div>
-
-      {showLoader ? (
-        <div style={{ margin: 40 }}>Blazing fast results... ⚡️⚡️⚡️</div>
-      ) : (
-        <>
-          <ImageBox promptQuery={promptQuery} imageResult={imageResult} />
-        </>
-      )}
-      <ChooseResults onSelect={handleAvailOptions} />
-      <RecentResults
-        promptQuery={promptQuery}
-        imageResult={imageResult}
-        onSelect={handleAvailOptions}
-      />
-      <div className="slideShowMessage">{loaderMessage}</div>
-      <div className="footer">Powered by SegMind</div>
+    <div className="home-container">
+      <NavBar onNavClick={setActiveSection} />
+      <div className="content">{renderSection()}</div>
+      
     </div>
   );
 };

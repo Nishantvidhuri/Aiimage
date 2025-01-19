@@ -1,0 +1,77 @@
+/* Container for Recent Results */
+.recent-results-container {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f9fafb;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Title Section */
+.recent-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.history-icon {
+  width: 24px;
+  height: 24px;
+  opacity: 0.8;
+}
+
+/* Grid Layout for Images */
+.recent-images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  justify-items: center;
+  align-items: center;
+}
+
+/* Individual Image Card */
+.recent-image-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recent-image-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Styling */
+.recent-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Image Label */
+.image-label {
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4b5563;
+  text-align: center;
+}
+
+/* Placeholder for No Recent Results */
+.no-recent-results {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 30px;
+}

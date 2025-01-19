@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import historyIcon from "../images/history.png";
+import "../style/RecentResults.css";
 
 const RecentResults = (props) => {
   const recentImages = JSON.parse(localStorage.getItem("genAIRecentKey"));
@@ -50,28 +51,30 @@ const RecentResults = (props) => {
   return (
     <>
       {recentImagesStored.length > 0 ? (
-        <>
-          <div style={{ marginTop: 30 }}>
-            Recent <img src={historyIcon} width={15} height={15} />{" "}
+        <div className="recent-results-container">
+          <div className="recent-title">
+            Recent <img src={historyIcon} alt="History" className="history-icon" />
           </div>
-          <div className="recentImageBox">
+          <div className="recent-images-grid">
             {recentImagesStored.map((value) => (
-              <>
-                <div key={value.src} onClick={() => handleClick(value.name)}>
-                  <img
-                    className="recentImage"
-                    src={value.src}
-                    alt={value.name}
-                    loading="lazy"
-                  />
-                  <div className="imageLabel">{value.name}</div>
-                </div>
-              </>
+              <div
+                key={value.src}
+                className="recent-image-card"
+                onClick={() => handleClick(value.name)}
+              >
+                <img
+                  className="recent-image"
+                  src={value.src}
+                  alt={value.name}
+                  loading="lazy"
+                />
+                <div className="image-label">{value.name}</div>
+              </div>
             ))}
           </div>
-        </>
+        </div>
       ) : (
-        <div></div>
+        <div className="no-recent-results">No recent results found.</div>
       )}
     </>
   );
